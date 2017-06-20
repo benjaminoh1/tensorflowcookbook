@@ -1,22 +1,22 @@
 # Matrices and Matrix Operations
-#----------------------------------
-#
-# This function introduces various ways to create
-# matrices and how to use them in Tensorflow
+# This function introduces various ways to create matrices and how to use them in Tensorflow
 
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import ops
 ops.reset_default_graph()
 
-# Declaring matrices
+
 sess = tf.Session()
 
-# Declaring matrices
+# 2차원 매트릭스는 Numpy arrays를 통하여 만들 수 있다. 혹은 앞에서 말한 데로 tf.zeros(), tf.ones(), tf.truncated_normal() 등으로 만들 수 있다.
 
 # Identity matrix
 identity_matrix = tf.diag([1.0,1.0,1.0])
 print(sess.run(identity_matrix))
+
+# Diagonal matrix
+diag()
 
 # 2x3 random norm matrix
 A = tf.truncated_normal([2,3])
