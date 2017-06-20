@@ -1,8 +1,5 @@
 # Data gathering
-#----------------------------------
-#
-# This function gives us the ways to access
-# the various data sets we will need
+# This function gives us the ways to access the various data sets we will need
 
 # Data Gathering
 import matplotlib.pyplot as plt
@@ -10,7 +7,6 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import ops
 ops.reset_default_graph()
-
 
 # Iris Data
 from sklearn import datasets
