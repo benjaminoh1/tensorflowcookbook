@@ -1,9 +1,8 @@
 # Layering Nested Operations
+
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-from tensorflow.python.framework import ops
-ops.reset_default_graph()
 
 # Create graph
 sess = tf.Session()
