@@ -1,10 +1,7 @@
 # Loss Functions
-#----------------------------------
-#
-#  This python script illustrates the different
-#  loss functions for regression and classification.
+#  This python script illustrates the different loss functions for regression and classification.
 
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt                             # graph pitting을 위하여 matplotlib library를 넣었다.
 import tensorflow as tf
 from tensorflow.python.framework import ops
 ops.reset_default_graph()
@@ -12,22 +9,19 @@ ops.reset_default_graph()
 # Create graph
 sess = tf.Session()
 
-###### Numerical Predictions ######
+# Numerical Predictions
 x_vals = tf.linspace(-1., 1., 500)
 target = tf.constant(0.)
 
-# L2 loss
-# L = (pred - actual)^2
+# L2 loss -  L = (pred - actual)^2 - 중심점으로 다가갈수록 기울기가 0이 되기 때문에, 수렴이 더 잘되는 장점이 있다. 
 l2_y_vals = tf.square(target - x_vals)
 l2_y_out = sess.run(l2_y_vals)
 
-# L1 loss
-# L = abs(pred - actual)
+# L1 loss - L = abs(pred - actual) - 중심점에서도 기울기가 일정하기 때문에, 수렴이 어려운 단점이 있다.
 l1_y_vals = tf.abs(target - x_vals)
 l1_y_out = sess.run(l1_y_vals)
 
-# Pseudo-Huber loss
-# L = delta^2 * (sqrt(1 + ((pred - actual)/delta)^2) - 1)
+# Pseudo-Huber loss,  L = delta^2 * (sqrt(1 + ((pred - actual)/delta)^2) - 1) : delta에 따라 얼마나 steep해질지가 결정된다.
 delta1 = tf.constant(0.25)
 phuber1_y_vals = tf.mul(tf.square(delta1), tf.sqrt(1. + tf.square((target - x_vals)/delta1)) - 1.)
 phuber1_y_out = sess.run(phuber1_y_vals)
@@ -53,27 +47,23 @@ target = tf.constant(1.)
 targets = tf.fill([500,], 1.)
 
 # Hinge loss
-# Use for predicting binary (-1, 1) classes
-# L = max(0, 1 - (pred * actual))
+# - Use for predicting binary (-1, 1) classes
+# - L = max(0, 1 - (pred * actual))
 hinge_y_vals = tf.maximum(0., 1. - tf.mul(target, x_vals))
 hinge_y_out = sess.run(hinge_y_vals)
 
 # Cross entropy loss
-# L = -actual * (log(pred)) - (1-actual)(log(1-pred))
+# - L = -actual * (log(pred)) - (1-actual)(log(1-pred))
 xentropy_y_vals = - tf.mul(target, tf.log(x_vals)) - tf.mul((1. - target), tf.log(1. - x_vals))
 xentropy_y_out = sess.run(xentropy_y_vals)
 
 # Sigmoid entropy loss
-# L = -actual * (log(sigmoid(pred))) - (1-actual)(log(1-sigmoid(pred)))
-# or
-# L = max(actual, 0) - actual * pred + log(1 + exp(-abs(actual)))
+# L = -actual * (log(sigmoid(pred))) - (1-actual)(log(1-sigmoid(pred)))     or    L = max(actual, 0) - actual * pred + log(1 + exp(-abs(actual)))
 xentropy_sigmoid_y_vals = tf.nn.sigmoid_cross_entropy_with_logits(x_vals, targets)
 xentropy_sigmoid_y_out = sess.run(xentropy_sigmoid_y_vals)
 
 # Weighted (softmax) cross entropy loss
-# L = -actual * (log(pred)) * weights - (1-actual)(log(1-pred))
-# or
-# L = (1 - pred) * actual + (1 + (weights - 1) * pred) * log(1 + exp(-actual))
+# L = -actual * (log(pred)) * weights - (1-actual)(log(1-pred))    or    L = (1 - pred) * actual + (1 + (weights - 1) * pred) * log(1 + exp(-actual))
 weight = tf.constant(0.5)
 xentropy_weighted_y_vals = tf.nn.weighted_cross_entropy_with_logits(x_vals, targets, weight)
 xentropy_weighted_y_out = sess.run(xentropy_weighted_y_vals)
@@ -103,3 +93,9 @@ unscaled_logits = tf.constant([[1., -3., 10.]])
 sparse_target_dist = tf.constant([2])
 sparse_xentropy = tf.nn.sparse_softmax_cross_entropy_with_logits(unscaled_logits, sparse_target_dist)
 print(sess.run(sparse_xentropy))
+
+
+
+# Graph를 눈으로 봐 보자.
+file_writer = tf.summary.FileWriter('C:/Users/user/Documents/GitHub/tensorflowcookbook', sess.graph)                # sess.graph contains the graph definition; that enables the Graph Visualizer.
+tensorboard --logdir=training:C:/Users/user/Documents/GitHub/tensorflowcookbook                                           # 이 부분만 cmd에서 따로 시행하여야만이 된다. Tensorflow는 :와 --를 구분 못하기 때문 

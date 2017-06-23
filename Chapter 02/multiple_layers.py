@@ -52,3 +52,5 @@ print(sess.run(custom_layer1, feed_dict={x_data: x_val}))
 # Graph를 눈으로 봐 보자.
 file_writer = tf.summary.FileWriter('C:/Users/user/Documents/GitHub/tensorflowcookbook', sess.graph)                # sess.graph contains the graph definition; that enables the Graph Visualizer.
 tensorboard --logdir=training:C:/Users/user/Documents/GitHub/tensorflowcookbook                                           # 이 부분만 cmd에서 따로 시행하여야만이 된다. Tensorflow는 :와 --를 구분 못하기 때문 
+
+
